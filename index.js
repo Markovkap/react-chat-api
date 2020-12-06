@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
@@ -19,6 +20,7 @@ mongoose.Promise = Promise;
 
 mongoose.connect(MONGODB_URI, {
   useMongoClient: true,
+  // useNewUrlParser:true
 });
 
 const db = mongoose.connection;

@@ -19,7 +19,7 @@ function getAllUsers(exceptId) {
 // Get profile data for specific user by id
 function getUserData(userId) {
   return User.findById(userId)
-    .select('username firstName lastName createdAt')
+    .select('username firstName lastName isAdmin createdAt')
     .lean()
     .exec();
 }

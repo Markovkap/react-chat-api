@@ -4,7 +4,7 @@ const { JWT_SECRET } = require('../config');
 const userController = require('./users');
 
 // Sign up new user by username and password
-function signUp(username, password) {
+function signUp(username, password, isAdmin = false) {
   if (!username || !password) {
     return Promise.reject({
       success: false,
@@ -25,6 +25,7 @@ function signUp(username, password) {
       const newUser = new User({
         username,
         password,
+        isAdmin,
       });
 
       return newUser.save();

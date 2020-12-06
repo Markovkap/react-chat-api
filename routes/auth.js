@@ -4,10 +4,10 @@ const authConroller = require('../controllers/auth');
 const authRouter = new Router();
 
 authRouter.post('/signup', (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, isAdmin } = req.body;
 
   authConroller
-    .signUp(username, password)
+    .signUp(username, password, isAdmin)
     .then((result) => {
       res.json({
         success: result.success,
