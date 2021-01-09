@@ -45,7 +45,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Add socket.io
-
 app.use(socketio(io));
 
 // Use routers
