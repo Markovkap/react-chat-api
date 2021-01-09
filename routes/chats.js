@@ -134,6 +134,30 @@ chatsRouter.get('/:id/join', (req, res, next) => {
     });
 });
 
+chatsRouter.get('/:id/join/:userId', (req, res, next) => {
+  chatsController
+    .joinChat(req.params.userId, req.params.id)
+    .then(({ success, chat, message }) => {
+      res.io.to(req.params.id).emit('new-message', {
+        success,
+        message,
+        chat,
+      });
+      res.json({
+        success,
+        message,
+        chat,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        success: false,
+        message: error.message,
+      });
+      next(error);
+    });
+});
+
 chatsRouter.get('/:id/leave', (req, res, next) => {
   chatsController
     .leaveChat(req.decoded.userId, req.params.id)
