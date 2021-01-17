@@ -37,7 +37,7 @@ function socketio(io) {
 
     socket.on('send-message', (newMessage, fn) => {
       const { chatId, content } = newMessage;
-      console.log(chatId, content);
+      console.log(chatId, content, fn);
       return sendMessage(socket.decoded.userId, chatId, { content })
         .then(({ success, message }) => {
           io.to(chatId).emit('new-message', {
