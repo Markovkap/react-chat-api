@@ -27,27 +27,26 @@ function socketio(io) {
 
   // TODO: Move this sockets handlers somewhere
   io.on('connection', (socket) => {
+    const userId = socket.decoded.userId;
     socket.on('mount-chat', (chatId) => {
       socket.join(chatId);
+      console.log(`User ${userId} added in chat ${chatId}`);
     });
 
     socket.on('unmount-chat', (chatId) => {
       socket.leave(chatId);
+      console.log(`User ${userId} left chat ${chatId}`);
     });
 
     socket.on('send-message', (newMessage, fn) => {
       const { chatId, content } = newMessage;
-      console.log(chatId, content, fn);
-      return sendMessage(socket.decoded.userId, chatId, { content })
+      return sendMessage(userId, chatId, { content })
         .then(({ success, message }) => {
           io.to(chatId).emit('new-message', {
             success,
             message,
           });
-          fn({
-            success,
-            message,
-          });
+          fn({ success });
         })
         .catch((error) => {
           // Handle errors
